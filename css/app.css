@@ -1,0 +1,272 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    font-family: 'Coda', cursive;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+
+/*
+ * Styles for the deck of cards
+ */
+
+.deck {
+    width: 660px;
+    min-height: 680px;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 3em;
+    }
+
+.deck .card {
+    height: 125px;
+    width: 125px;
+    background: #2e3d49;
+    font-size: 0;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+.deck .card.open {  /* The element to apply the animation to */
+    transform: rotateY(0);
+    background: #02b3e4;
+    cursor: default;
+    animation-name: animatetop; 
+    animation-duration: 0.8s;  
+}
+
+/*
+ * styles to show cards
+ */
+
+.deck .card.show {                              
+    font-size: 33px;  
+}
+
+/*
+ * styles for the matched cards
+ */
+
+.deck .card.match {     /* The element to apply the animation to */
+    cursor: default;
+    background: #02ccba;
+    font-size: 33px;
+    animation: shake 0.15s; 
+    animation-iteration-count: 0.10s;
+}
+
+/*
+ * styles for the unmatched cards
+ */
+
+.deck .card.unmatch{    /* The element to apply the animation to */
+    cursor: default;
+    background: hsla(9, 98%, 49%, 0.767);
+    font-size: 33px;
+    animation: faster_shake 0.80s;              
+    animation-iteration-count: 0.10s;
+}
+
+/*
+ * Styles for the Score Panel
+ */
+
+.score-panel {
+    text-align: left;
+    width: 520px;
+    margin-bottom: 10px;
+}
+
+.score-panel .stars {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+
+.score-panel .stars li {
+    list-style: none;
+    display: inline-block;
+}
+
+.score-panel .restart {
+    float: right;
+    cursor: pointer;
+}
+
+/*
+ * Styles for the Modal
+ */
+
+.modal {    
+    position: fixed; /* Stay in place */
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); 
+}
+
+/*
+* Styles for the Modal Header 
+*/
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #02cccc;
+    color: white;
+    border-radius: 5px;
+    width: 400px;
+    height: 80px;
+  }
+  
+/* 
+* Styles for the Modal Body 
+*/
+
+.modal-body {
+    position: relative;
+    padding: 2px 16px;
+    width: 400px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+  
+/*
+* Styles for the Modal Footer 
+*/
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color:#02cccc ;
+    color:  white;
+    border-radius: 5px;
+    width: 400px;
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+}
+
+/* 
+* Styles for the Footer Button
+*/
+
+.modal-button{
+    width: 100px;
+    height: 60px; 
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    background-color: #02ccba;
+    color:  white;
+    cursor: pointer;
+}
+
+/* 
+* Styles for the Modal Details 
+*/
+
+.modal-details {   /* The element to apply the animation to */                   
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 400px; 
+    top: 30%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animateorigin;              
+    animation-duration: 0.8s
+}
+
+/*
+ * styles to hide modal
+ */
+
+.hide{
+    display: none;
+}
+  
+/* 
+ * The Animation Codes 
+ */
+   
+@keyframes animateorigin {
+    from {background-origin: -300px; opacity: 0}
+    to {background-origin: 0; opacity: 1}
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }   
+    30% { transform: translate(3px, 2px) rotate(0deg); }    
+    60% { transform: translate(-3px, 1px) rotate(0deg); }    
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+@keyframes faster_shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+
+
+
+  
