@@ -17,7 +17,7 @@ function newCards (newOne){
     return aaa;                                             
 }                                                              
 
-function buildLayout(){
+function buildLayout(shuffledCards){
     const newDeck = document.querySelector('.deck');       
     const cardIcons = shuffledCards.map(function(newIcons){
         return newCards(newIcons);                               
@@ -107,7 +107,7 @@ function resetGame(){
     resetTimer();
     resetMoves();
     resetStars();
-    buildLayout();
+    buildLayout(shuffle(icons));
     crdclck();    
     clckModal();    
 }
@@ -137,12 +137,13 @@ function res(){
 }
 
 function cardMatch(selCards){
-    selCards[0].classList.add('match');
-    selCards[1].classList.add('match');
+    selCards[0].classList.add('match', 'disabled');
+    selCards[1].classList.add('match', 'disabled');
 
-    selCards.pop();
-    selCards.pop();
-    res();                                                              
+    while (selCards.length) {
+        selCards.pop();
+    } 
+                  
 }
 
 function unmatchCards(umCards){
@@ -150,34 +151,35 @@ function unmatchCards(umCards){
     umCards[1].classList.add('unmatch');
 
     setTimeout(function turnCard() {
-        umCards[0].classList.remove('unmatch');
-        umCards[1].classList.remove('unmatch');
+        umCards[0].classList.remove('unmatch','disabled');
+        umCards[1].classList.remove('unmatch','disabled');
                 
         umCards[0].classList.remove ('open','show');
         umCards[1].classList.remove ('open','show');
 
-        umCards.pop(); 
-        umCards.pop(); 
+        while (umCards.length) {
+            umCards.pop();
+        } 
                                                                         
     },1000);
 
-    res();        
 }
 
 function crdclck(){
     let gameCards = document.querySelectorAll('.card');    
     //return list items contained within a list whose class is "card" 
-
+    
     let selectedCards = [];  // declaring an empty array                                                      
     let counter = 0;    // initializing value of counter variable
-
-    gameCards.forEach(function(gameCard){                            
-        gameCard.addEventListener ('click', function(){                  
-            if(!gameCard.classList.contains('open') && !gameCard.classList.contains('show')){                                                                       
+    
+    gameCards.forEach(function(gameCard,i){                            
+        gameCard.addEventListener ('click', function(){   
+            if(!gameCard.classList.contains('open') && !gameCard.classList.contains('show')){ 
+                
                 selectedCards.push(gameCard);   //checking if the cards are not open, then add the element into the array
-
+        
                 if(selectedCards.length <=2){
-                    gameCard.classList.add ('open','show');
+                    gameCard.classList.add ('open','show','disabled');
                 }                                         
                 if (selectedCards.length === 2){
 
@@ -193,14 +195,19 @@ function crdclck(){
                         }
                     }
                     else{
+                        
                         unmatchCards(selectedCards);
-                    }
-                }
+                
+                    }                    
+                }                
             }
-            movesUpdate();              
+            if(selectedCards.length <=2){
+                movesUpdate();           
+            }
+             
         });
     });
-}
+};
 
 /*Array of strings, representing symbols of cards is assigned to variable named icons */
 const icons = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor",
@@ -213,13 +220,12 @@ const starsCount = document.querySelectorAll('.stars li');
 let move = 0;
 let time = 0;
 let stopWatch;
-
-/*calling shuffle function and passing icons as an argument and storing the returned shuffled array of sting in variable shuffledCards */
-const shuffledCards = shuffle(icons);
-                                                
-/*calling buildLayout function, which returns new deck of shuffled cards inserting values into the HTML deck element */
-buildLayout();
-
+                                              
+/*calling shuffle function and passing icons as an argument.
+* Then passing it as an argument of buildLayout function, which returns new deck of shuffled cards inserting values into the HTML deck element.
+*/
+buildLayout(shuffle(icons));
+res();
 crdclck();
 modalToggle(); //calling modalToggle() function to show
 modalToggle();  //calling modalToggle() function to hide
